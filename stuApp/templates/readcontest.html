@@ -1,0 +1,108 @@
+{% load static %}
+{% include 'header0.html' %}
+
+{% block content %}
+<title>프로필 상세보기</title>
+{% endblock %}
+
+{% include 'header.html' %}
+
+{% block content0 %}
+
+{% endblock %}
+
+
+{% include 'header2.html' %}
+
+{% block content1 %}
+
+<form role="form" method="post">
+   {% csrf_token %}
+   <input type='hidden' name='id' value="OOO">
+
+</form>
+
+<div class="content">
+            <div class="animated fadeIn">
+                <div class="row">
+
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title mb-3">Profile</strong>
+                            </div>
+                            <div class="card-body">
+                                <div class="mx-auto d-block">
+<!--                                    <img class="rounded-circle mx-auto d-block">-->
+<!--                                    {% static "" as 'images' %}-->
+<!--                                    <img src="{{images}}/{{readpro2.profile_img}}">-->
+                                    <h5 class="text-sm-center mt-2 mb-1">{{readpro.username}}</h5>
+                                    <div class="location text-sm-center"><i class="fa fa-map-marker"></i>&nbsp;{{readpro2.location}}</div>
+                                </div>
+                                <hr>
+                                <div class="card-text text-sm-center">
+                                    {{readpro2.contact}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>About me</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="default-tab">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">BIO</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content pl-3 pt-2" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <p>{{readpro2.bio}}</p>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="box-footer">
+
+   <button type="button" class="btn btn-primary" id="ListBtn">목록 보기</button>
+   {% if id == readpro2.user_name %}
+   <button type="button" class="btn btn-primary" id="ModifyBtn">수정하기</button>
+   {% endif %}
+</div>
+{% endblock %}
+
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+ <form method="post" id="modifyFrm">
+   {% csrf_token %}
+   <input type="hidden" name="id" value="{{readpro2.id}}">
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+$(document).ready(function(){
+   $('#ListBtn').click(function (){
+      location.href='../profile_list'
+   })
+   $('#ModifyBtn').click(function (){
+      $('#modifyFrm').attr('action', "{% url 'stuApp:modify_form' %}").submit()
+   })
+});
+
+</script>
+{% endblock %}
+
+
+{% include 'footer2.html' %}

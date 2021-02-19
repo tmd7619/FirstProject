@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/vcs.xml
+*.log
+*.pyc
+*/*/*/__pycache__/
+*/*/__pycache__/
+*/__pycache__/

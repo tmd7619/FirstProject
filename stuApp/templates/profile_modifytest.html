@@ -1,0 +1,102 @@
+{% load static %}
+{% include 'header0.html' %}
+
+{% block content %}
+<title>test!</title>
+{% endblock %}
+
+{% include 'header.html' %}
+
+{% block content0 %}
+
+{% endblock %}
+
+
+{% include 'header2.html' %}
+
+{% block content1 %}
+
+<form id="modifyFrm" role="form" method="post" action="{% url 'stuApp:profile_modify' %}">
+   {% csrf_token %}
+   <input type="hidden" name="id" value="{{readmodi2.id}}" />
+
+<div class="content">
+            <div class="animated fadeIn">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title mb-3">Profile Modify</strong>
+                            </div>
+                            <div class="card-body">
+                                <div class="mx-auto d-block">
+                                    <!--<img class="rounded-circle mx-auto d-block" src="../../../../ElaAdmin-master/images/admin.jpg" alt="Card image cap">-->
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="disabled-input" class=" form-control-label">id</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" name="user_id" placeholder="{{readmodi.username}}" disabled="" class="form-control"></div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="location-input" class=" form-control-label">location</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" name="location" value="{{readmodi2.location}}" class="form-control"><small class="help-block form-text">바꿀 위치를 입력하세요.</small></div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row form-group">
+                                        <div class="col col-md-3"><label for="contact-input" class=" form-control-label">contact</label></div>
+                                        <div class="col-12 col-md-9"><input type="text" name="contact" value="{{readmodi2.contact}}" class="form-control"><small class="help-block form-text">바꿀 연락처를 입력하세요.</small></div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Default Tab</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="default-tab">
+                                        <nav>
+                                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">BIO</a>
+                                            </div>
+                                        </nav>
+                                        <br>
+
+                                        <div class="row form-group">
+                                        <div class="col-12 col-md-9"><textarea name="mybio2" rows="9" class="form-control">{{readmodi2.bio}}</textarea></div>
+                                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="box-footer">
+   <button type="submit" class="btn btn-primary">MODIFY</button>
+   <button type="submit" class="btn btn-warning">CANCEL</button>
+</div>
+{% endblock %}
+
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+   $(document).ready(function() {
+      $('.btn-warning').click(function (){
+         location.href='../profile_list'
+      })
+      $('.btn-primary').click(function (){
+         alert('프로필 수정이 완료되었습니다.')
+         $('#modifyFrm').submit()
+      })
+   });
+</script>
+{% endblock %}
+
+{% include 'footer2.html' %}

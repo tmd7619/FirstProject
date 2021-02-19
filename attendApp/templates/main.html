@@ -1,0 +1,210 @@
+{% include 'header0.html' %}
+
+{% block content %}
+<title>진행도</title>
+{% endblock %}
+
+{% load static %}
+
+<body onload="move()">
+
+</body>
+
+{% include 'header.html' %}
+
+{% block content0 %}
+<style> 
+    #whole_bar, #subject_bar, #today_bar, #custom_bar{
+        height: 30px;
+        text-align: center;
+        line-height: 30px;
+        color: black;
+        padding-left: 5px;
+    }
+    .date_name{
+        display:flex;
+        margin-bottom: 12px;
+    }
+</style>
+{% endblock %}
+
+
+{% include 'header2.html' %}
+
+{% block content1 %}
+<div class="content">
+    <div>전체 프로그램</div>
+        <div id="whole" >
+            <div id="whole_bar"  class="progress-bar-striped progress-bar-animated" style="background-color: #00c292;"></div>
+        </div>
+        <div class="date_name">
+            <span style="margin: 0 auto 0 0">2020.12.28</span>
+            <span style="margin: 0 0 0 auto">2021.06.04</span>
+        </div>
+
+        <div>{{subject_name}}</div>
+        <div id="each_subject">
+            <div id="subject_bar"  class="progress-bar-striped progress-bar-animated" style="background-color: #03a9f3;"></div>
+        </div>
+        <div class="date_name">
+            <span style="margin: 0 auto 0 0">{{pro_start}}</span>
+            <span style="margin: 0 0 0 auto">{{pro_end}}</span>
+        </div>
+
+        <div>오늘({{today|date:"Y.m.d"}} )</div>
+        <div id="each_day">
+            <div id="today_bar" class="progress-bar-striped progress-bar-animated" style="background-color: #fb9678;"></div>
+        </div>
+        <div class="date_name">
+            <span style="margin: 0 auto 0 0">09:00</span>
+            <span style="margin: 0 0 0 auto">18:00</span>
+        </div>
+
+        {% if id %}
+       <div >
+        {% if custom_name %}
+        <div id="custom_graph">
+            <div>{{custom_name}}</div>
+            <div id="custom_day">
+                <div id="custom_bar" class="progress-bar-striped progress-bar-animated" style="background-color: #66bb6a;"></div>
+            </div>
+            <div class="date_name">
+                <span style="margin: 0 auto 0 0">{{custom_startdate|date:"Y.m.d/H:i:s"}}</span>
+                <span style="margin: 0 0 0 auto">{{custom_enddate|date:"Y.m.d/H:i:s"}}</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if not custom_name %}
+        <div style="font-style: italic;">각자 코딩에 관련된 목표를 설정해 보아요</div>
+        <form id="custom_add" method="POST" action="{% url 'atdApp:custom_save' %}">
+            {% csrf_token %}
+            <input class="form-control" type="text" name="period_name" placeholder="기간의 이름을 입력하세요"></input>
+            <div>시작
+                <input class="form-control" type="date" name="start_d" value={{today|date:"Y-m-d"}} ></input>
+                <input class="form-control"type="time" name="start_t" value="09:00:00"></input>
+            </div>
+            <div>마감
+                <input  class="form-control" type="date" name="end_d" value="2021-02-19" max="2021-06-04" min={{today|date:"Y-m-d"}}></input>
+                <input  class="form-control" type="time" name='end_t' value="18:00:00"></input>
+            </div>
+            <button type="submit" id="add_btn" class="btn btn-secondary btn-sm">개인 그래프 추가</button>
+        </form>
+        {% endif %}
+
+        {% if custom_name %}
+        <form id="custom_del" method="POST" action="{% url 'atdApp:custom_del' %}">
+            {% csrf_token %}
+            <button class="btn btn-secondary btn-sm">개인 그래프 제거</button>
+        </form>
+        {% endif %}
+       </div>
+
+       {% else %}
+       <div>
+           개인 일정 추가를 위해 로그인 해주세요
+       </div>
+       {% endif %}
+
+</div>
+{% endblock %}
+
+
+{% include 'footer.html' %}
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>  
+<script>
+    var td = 0;
+    var wh = 0;
+    var pj = 0;
+    function move() {
+        if (td == 0) {
+            td = 1;
+            var elem_td = document.getElementById("today_bar");
+            var width_td = {{today_per}};
+            var id_td = setInterval(frame, 100);/* 1000 = 1초 */
+            function frame() {
+                if (width_td >= 100) {
+                    clearInterval(id_td);
+                    td = 0;
+                    elem_td.style.width = '100%';
+                    elem_td.innerHTML = '100%';
+                } else {
+                    width_td = width_td + (1 / 32400) * 100 * 0.1;
+                    elem_td.style.width = width_td + "%";
+                    elem_td.innerHTML = width_td + "%";
+                }
+            }
+        }
+        if (pj == 0) {
+            pj = 1;
+            var elem_pj = document.getElementById("subject_bar");
+            var width_pj = {{pro_per}};
+            var id_pj = setInterval(frame, 100);/* 1000 = 1초 */
+            function frame() {
+                if (width_pj >= 100) {
+                    clearInterval(id_pj);
+                    pj = 0;
+                    elem_pj.style.width_pj = '100%';
+                    elem_pj.innerHTML = '100%';
+                } else {
+                    width_pj = width_pj + (1 / 100000) * 100 * 0.1;
+                    elem_pj.style.width = width_pj + "%";
+                    elem_pj.innerHTML = width_pj + "%";
+                }
+            }
+        }
+        if (wh == 0) {
+            wh = 1;
+            var elem_wh = document.getElementById("whole_bar");
+            var width_wh = {{class_per}};
+            var id_wh = setInterval(frame, 100);/* 1000 = 1초 */
+            function frame() {
+                if (width_wh >= 100) {S
+                    clearInterval(id_wh);
+                    wh = 0;
+                    elem_wh.style.width_wh = '100%';
+                    elem_wh.innerHTML = '100%';
+                } else {
+                    width_wh = width_wh + (1 / 13683600) * 100 * 0.1;
+                    elem_wh.style.width = width_wh + "%";
+                    elem_wh.innerHTML = width_wh + "%";
+                }
+            }
+        }
+        // 커스텀
+        var cus = 0;
+        if (cus == 0) {
+                cus = 1;
+                var elem_cus = document.getElementById("custom_bar");
+                var width_cus = {{custom_percentage}};
+                var id_cus = setInterval(frame, 100);/* 1000 = 1초 */
+                function frame() {
+                    if (width_cus >= 100) {
+                        clearInterval(id_cus);
+                        cus = 0;
+                        elem_cus.style.width = '100%';
+                        elem_cus.innerHTML = '100%';
+                    }
+                    else if (width_cus <= 0) {
+                        clearInterval(id_cus);
+                        cus = 0;
+                        elem_cus.style.width = '0%';
+                        elem_cus.innerHTML = '0%';
+                    } 
+                    else {
+                        width_cus = width_cus + (1 / {{custom_seconds}}) * 100 * 0.1;
+                        elem_cus.style.width = width_cus + "%";
+                        elem_cus.innerHTML = width_cus + "%";
+                    }
+                }
+            }
+            // 커스텀
+    }     
+
+</script>
+{% block content2 %}
+
+{% endblock %}
+
+
+{% include 'footer2.html' %}

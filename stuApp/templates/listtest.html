@@ -1,0 +1,55 @@
+{% load static %}
+{% include 'header0.html' %}
+
+{% block content %}
+<title>회원 프로필</title>
+{% endblock %}
+
+{% include 'header.html' %}
+
+{% block content0 %}
+
+{% endblock %}
+
+
+{% include 'header2.html' %}
+
+{% block content1 %}
+        <div class="content">
+            <div class="card-header">
+                <strong class="card-title">Member List</strong>
+            </div>
+                {% if readusers %}
+                <table class="table table-striped" style="background: white;">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">BIO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    {% for readuser in readusers %}
+                        <tr>
+                            <th scope="row">{{readuser.id}}</th>
+                            <td><a href="{% url 'stuApp:profile_read' id=readuser.id %}">{{readuser.user_name}}</td>
+                            <td>{{readuser.bio}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                {% else %}
+                            <p>데이터가 존재하지 않습니다.</p>
+                {% endif %}
+        </div>
+{% endblock %}
+
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+
+{% endblock %}
+
+
+{% include 'footer2.html' %}

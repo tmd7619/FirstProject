@@ -1,0 +1,40 @@
+{% load static %}
+{% include 'header0.html' %}
+
+{% block content %}
+<title>일정 추가</title>
+{% endblock %}
+
+{% include 'header.html' %}
+{% block content0 %}
+
+{% endblock %}
+
+
+{% include 'header2.html' %}
+
+{% block content1 %}
+<div class="content">
+    <div style="background: white; padding: 15px;">
+        <br>
+    <form method="POST">
+    {% csrf_token %}
+    <div class="form form-table">
+        {{ form }}
+        <button type="submit" class="btn btn-info right"> Submit </button>
+    </div>
+    </form>
+    </div>
+
+</div>
+{% endblock %}
+
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+
+{% endblock %}
+
+
+{% include 'footer2.html' %}

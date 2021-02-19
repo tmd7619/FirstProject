@@ -1,0 +1,98 @@
+{% load static %}
+{% include 'header0.html' %}
+
+{% block content0 %}
+<title>교육과정</title>
+{% endblock %}
+
+{% include 'header.html' %}
+
+{% block content%}
+<!DOCTYPE html>
+<html lang="ko">
+{% endblock %}
+
+
+{% include 'header2.html' %}
+
+{% block content1 %}
+
+<body>
+<header>
+    <div class="container">
+    <div class="navbar-dark bg-dark shadow-sm mb-3">
+        <div class="container d-flex justify-content-between">
+            <a href="/" class="navbar-brand d-flex align-items-center">
+                <strong>Class board</strong>
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <form role="form" method="post" action="{% url 'hello_app:post' %}">
+        {% csrf_token %}
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"><strong>Class type</strong></label>
+            <div class="col-sm-10">
+                <select id="searchType" name="classType">
+                    <option value="Python">Python</option>
+                    <option value="Django">Django</option>
+                    <option value="Oracle">Oracle</option>
+                    <option value="HTML">HTML</option>
+                    <option value="HTML">CSS</option>
+                    <option value="HTML">JAVA</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"><strong>Title</strong></label>
+            <div class="col-sm-10">
+                <input type="text" name="title" class="form-control">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"><strong>Content</strong></label>
+            <div class="col-sm-10">
+                <textarea type="text" name="content" class="form-control"></textarea>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"><strong>Hint</strong></label>
+            <div class="col-sm-10">
+                <textarea type="text" name="explanation" class="form-control" rows="8"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label"><strong>Answer</strong></label>
+            <div class="col-sm-10">
+                <textarea type="text" name="answer" class="form-control"></textarea>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-auto mr-auto"></div>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="submit" role="button" value="글쓰기">
+            </div>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>
+{% endblock %}
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% include 'header0.html' %}
+
+{% block content %}
+<title>교육과정</title>
+{% endblock %}
+
+{% include 'header.html' %}
+
+{% block content0 %}
+<style>
+    .spec_btn {
+        margin: 2px;
+        color: black;
+        border-radius: 10px;
+        padding: 5 10 5 10;
+        font-size: 11px;
+        font-weight: 600;   
+    }
+</style>
+{% endblock %}
+
+
+{% include 'header2.html' %}
+
+{% block content1 %}
+<div class="content">
+    <div>
+        오늘은 {{len|date:"Y.m.d"}}
+    </div>
+
+    <!-- <button class="btn btn-secondary btn-sm">이전 일정 숨기기</button>
+    <button class="btn btn-secondary btn-sm">남은 일정 숨기기</button> -->
+
+<div class="table-stats order-table ov-h" style="background: white;">
+    <table class="table " >
+        <thead>
+            <tr>
+                <th class="name">과목명</th>
+                <th>시작일</th>
+                <th>스킬</th>
+                <th class="product">강사</th>
+                <th>완성도</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for x in list %}
+                <tr>
+                    <td class="name">
+                        <a href="{% url 'atdApp:ranking' %}">{{x.subject_name}}</a>
+                    </td>
+                    <td>
+                        {{x.subject_date|date:"Y-m-d"}}
+                    </td>
+                    <td>
+                        {% for y in x.specdetail_set.all %}
+                            {% if y.spec_name == 'sql' %}
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: yellow;">{{y.spec_name}}</a>
+                            {% elif y.spec_name == 'git' %}
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: teal;">{{y.spec_name}}</a>
+                            {% elif y.spec_name == 'python' %}
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: lightblue;">{{y.spec_name}}</a>
+                            {% elif y.spec_name == 'django' %}
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: crimson;">{{y.spec_name}}</a>
+                            {% elif y.spec_name == 'html' %}
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: darkkhaki;">{{y.spec_name}}</a>
+                            {% elif y.spec_name == 'javascript' %}
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: darkorange;">{{y.spec_name}}</a>
+                            {% else %}
+                            <a href="{% url 'atdApp:ranking' %}"class="spec_btn" style="background-color: lightgrey">{{y.spec_name}}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <span class="product">{{x.subject_tutor}}</span>
+                    </td>
+                    <td>
+                        <span class="count">{{x.subject_comp}}</span>
+                        <span>%</span>
+                    </td>
+                    <td>
+                        {% if x.subject_comp == 100 %}
+                        <span class="badge badge-complete">완료</span>
+                        {% elif x.subject_comp == 0 %}
+                        <span class="badge" style="background-color: rgb(102, 102, 102);">예정</span>
+                        {% else %}
+                        <span class="badge badge-pending">진행중</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+{% endblock %}
+
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+
+{% endblock %}
+
+
+{% include 'footer2.html' %}

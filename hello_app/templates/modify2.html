@@ -1,0 +1,128 @@
+{% load static %}
+{% include 'header0.html' %}
+
+{% block content0 %}
+<title>교육과정</title>
+{% endblock %}
+
+{% include 'header.html' %}
+
+{% block content3 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+	<script src="{% static '/resources/plugins/jQuery/jQuery-2.1.4.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+
+</head>
+
+{% endblock %}
+
+{% include 'header2.html' %}
+
+{% block content1 %}
+
+<body>
+<header>
+	<div class="container">
+
+    <div class="navbar-dark bg-dark shadow-sm mb-3">
+        <div class="container d-flex justify-content-between">
+            <a href="/" class="navbar-brand d-flex align-items-center">
+                <strong>Class board</strong>
+            </a>
+        </div>
+    </div>
+</header>
+
+
+<form id="modifyFrm" role="form" method="post" action="{% url 'hello_app:modify' %}">
+	<div class="container">
+		{% csrf_token %}
+		<input type="hidden" name="id" value="{{board.id}}" />
+		<div class="form-group row">
+            <label class="col-sm-2 col-form-label"><strong>Class type</strong></label>
+            <div class="col-sm-10">
+                <select id="searchType" name="classType">
+                    <option value="Python">Python</option>
+                    <option value="Django">Django</option>
+                    <option value="Oracle">Oracle</option>
+                    <option value="HTML">HTML</option>
+                    <option value="HTML">CSS</option>
+                    <option value="HTML">JAVA</option>
+                </select>
+            </div>
+        </div>
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"><strong>Title</strong></label>
+			<div class="col-sm-10">
+				<textarea class="form-control" name="title" rows="3">{{board.title}}</textarea>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"><strong>Content</strong></label>
+			<div class="col-sm-10">
+				<textarea class="form-control" name="content" rows="3">{{board.content}}</textarea>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"><strong>Hint</strong></label>
+			<div class="col-sm-10">
+				<textarea class="form-control" name="explanation" rows="8">{{board.explanation}}</textarea>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"><strong>Answer</strong></label>
+			<div class="col-sm-10">
+				<textarea class="form-control" name="answer" rows="3">{{board.answer}}</textarea>
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<label class="col-sm-2 col-form-label"><strong>Writer</strong></label>
+			<div class="col-sm-10">
+				<input type="text" name="writer" class="form-control" value="{{board.writer}}" readonly="readonly">
+			</div>
+		</div>
+	</div>
+	<!-- /.box-body -->
+</form>
+
+<div class="container">
+<div class="box-body">
+	<button type="submit" class="btn btn-primary">Modify</button>
+	<button type="submit" class="btn btn-warning">Cancle</button>
+</div>
+{% endblock %}
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$('.btn-warning').click(function() {
+			location.href='../list'
+		})
+		$('.btn-primary').click(function() {
+			alert('게시글이 수정 되었습니다')
+			$('#modifyFrm').submit()
+		})
+
+	});
+</script>
+</body>
+</html>
+
+{% endblock %}
+
+{% include 'footer2.html' %}
+

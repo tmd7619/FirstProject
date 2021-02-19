@@ -1,0 +1,548 @@
+{% include 'header0.html' %}
+
+{% block content %}
+<title>출석</title>
+{% endblock %}
+
+{% include 'header.html' %}
+
+{% block content0 %}
+<style>
+    #Bbtn{
+        margin: 4px;
+    }
+    #Mbtn{
+        margin: 4px;
+    }
+    #Abtn{
+        margin: 4px;
+    }
+    #result{
+        font-weight: 800;
+    }
+
+</style>
+<style>
+    .clock {
+
+}
+
+.digit {
+  width:60px;
+  height:100px;
+  margin:0px;
+  position:relative;
+  display:inline-block;
+}
+
+.digit .segment {
+  background:#00c292;
+  border-radius:3px;
+  position:absolute;
+  opacity:0.15;
+  transition:opacity 0.2s;
+  -webkit-transition:opacity 0.2s;
+  -ms-transition:opacity 0.2s;
+  -moz-transition:opacity 0.2s;
+  -o-transition:opacity 0.2s;
+}
+
+.digit .segment.on, .separator {
+  opacity:1;
+  box-shadow:0 0 50px rgba(32, 138, 72, 0.7);
+  transition:opacity 0s;
+  -webkit-transition:opacity 0s;
+  -ms-transition:opacity 0s;
+  -moz-transition:opacity 0s;
+  -o-transition:opacity 0s;
+}
+
+.separator {
+  width:10px;
+  height:10px;
+  background:#00c292;
+  border-radius:50%;
+  display:inline-block;
+  position:relative;
+  top:-45px;
+}
+
+.digit .segment:nth-child(1) {
+  top:10px;
+  left:20px;
+  right:20px;
+  height:7px;
+}
+
+.digit .segment:nth-child(2) {
+  top:20px;
+  right:10px;
+  width:7px;
+  height:75px;
+  height:calc(50% - 25px);
+}
+
+.digit .segment:nth-child(3) {
+  bottom:20px;
+  right:10px;
+  width:7px;
+  height:75px;
+  height:calc(50% - 25px);
+}
+
+.digit .segment:nth-child(4) {
+  bottom:10px;
+  right:20px;
+  height:7px;
+  left:20px;
+}
+
+.digit .segment:nth-child(5) {
+  bottom:20px;
+  left:10px;
+  width:7px;
+  height:75px;
+  height:calc(50% - 25px);
+}
+
+.digit .segment:nth-child(6) {
+  top:20px;
+  left:10px;
+  width:7px;
+  height:75px;
+  height:calc(50% - 25px);
+}
+
+.digit .segment:nth-child(7) {
+  bottom:95px;
+  bottom:calc(50% - 5px);
+  right:20px;
+  left:20px;
+  height: 7px;
+}
+</style>
+{% endblock %}
+
+
+{% include 'header2.html' %}
+
+{% block content1 %}
+<div class='content'>
+    <div>
+        <div class="clock">
+            <div class="digit hours">
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+          
+            <div class="digit hours">
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+          
+            <div class="separator"></div>
+          
+            <div class="digit minutes">
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+          
+            <div class="digit minutes">
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+          
+            <div class="separator"></div>
+          
+            <div class="digit seconds">
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+          
+            <div class="digit seconds">
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+              <div class="segment"></div>
+            </div>
+          </div>
+    </div>
+    <form method="POST" class="post-form">
+        {% csrf_token %}
+        {{alarm_info}}
+    </form>
+    <div id="result" style="display: none;"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-content" style="text-align: center;">
+                        <button type="submit" class = "btn btn-primary" name="Bbtn" value="Bbtn" id="Bbtn">
+                            <div>
+                                <span class="ti-stamp"></span>
+                                <span> browser ver QR 출석 </span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-content" style="text-align: center;">
+                        <button type="submit" class = "btn btn-primary" name="Mbtn" value="Mbtn" id="Mbtn">
+                            <div>
+                                <span class="ti-stamp"></span>
+                                <span> mobile ver QR 출석 </span>
+                            </div>
+                            <div id="mobile_result"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4" style="visibility:hidden;font-weight:bold" id="container_Abtn">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-content" style="text-align: center;">
+                        <button type="submit" class="btn btn-success " name="Abtn" value="Abtn" id="Abtn" style="visibility:hidden;font-weight:bold">
+                            <div>
+                                <span class="ti-alarm-clock"></span>
+                                <spa id="timeLeft"> 신호 출석 </spa>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib flat-color-1">
+                            <i class="pe-7s-cash"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text">1등 : {{attend_1}}</div>
+                                <div class="stat-heading">
+                                    <form method="POST" action="{% url 'atdApp:ranking' %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-secondary btn-sm" id="abs" value="atd">출석 순위</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <div class="stat-widget-five">
+                        <div class="stat-icon dib flat-color-2">
+                            <i class="pe-7s-cart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="text-left dib">
+                                <div class="stat-text">1등 : {{absent_1}}</div>
+                                <div class="stat-heading">
+                                    <form method="POST" action="{% url 'atdApp:difrank' %}">
+                                        {% csrf_token %}
+                                        <button class="btn btn-secondary btn-sm" id="abs" value="abs" name="name">결석 순위</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 차트 -->
+    <div id="chart_div"></div>
+        
+</div>
+{% endblock %}
+
+
+{% include 'footer.html' %}
+
+{% block content2 %}
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>  
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script>
+    $(document).ready(function(){
+    google.charts.load('current', {
+        packages: ['corechart', 'bar']
+    });
+    google.charts.setOnLoadCallback(drawAxisTickColors);
+});
+</script>
+<script>
+    google.charts.load('current', {
+            packages: ['corechart', 'bar']
+        });
+    google.charts.setOnLoadCallback(drawAxisTickColors);
+
+    function drawAxisTickColors(inp) {
+        if (inp == null) {
+            var cus_data = {{ tmp_table|safe }};
+        }
+        else{
+            cus_data = inp
+        }
+        // var cus_data = {{ tmp_table|safe }}
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', '닉네임');
+        data.addColumn('number', '출석');
+        data.addColumn('number', '결석');
+        data.addColumn({type: 'string', role: 'style'});
+        data.addColumn({type: 'string', role: 'annotation'});
+        data.addRows( cus_data );
+            var options = {
+            title: '인공지능 C반 {{what}} 랭킹', height: 600,
+            colors: ['#00c292', '#ffab91'],
+            chartArea: {
+                width: '70%'
+            },
+            hAxis: {
+                title: '출석 및 결석 일수',
+                minValue: 0,
+                textStyle: {
+                    bold: true,
+                    fontSize: 12,
+                    color: '#4d4d4d'
+                },
+                titleTextStyle: {
+                    bold: true,
+                    fontSize: 18,
+                    color: '#4d4d4d'
+                }
+            },
+            vAxis: {
+                // title: 'City',
+                textStyle: {
+                    fontSize: 14,
+                    bold: true,
+                    color: '#848484'
+                },
+                titleTextStyle: {
+                    fontSize: 14,
+                    bold: true,
+                    color: '#848484'
+                }
+            },
+            animation:{
+                duration: 1000,
+                easing: 'out',
+                startup: 'true',
+            },
+            annotations: {
+                alwaysOutside: 'true'
+                }
+        };
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
+
+<script>
+    $(document).ready(function() {
+         tid=setInterval('PrintTime()',1000);
+         alarm_flag = 0
+
+         $('#Abtn').click(function() {
+             alarm_flag = 1;
+             $.ajax({
+                url : "{% url 'atdApp:alarm_ajax' %}",
+                type : 'post',
+                //data : script 으로 부터 받아온 정보로 서버로 보낼 내용
+                data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
+                         'flag' : $('#Abtn').val()},
+                dataType: 'json',
+                        // 성공하면 콜백 함수가 호출된다.
+                success : function(list){
+                    $.each(list, function(idx, data){
+                        //alert(idx+ " , " +data.id+ " , " + data.pwd)
+                        alert(data.info)
+                         $('#timeLeft').empty().append(data.info)
+                    })
+                }
+             })
+         })
+         $('#Bbtn').click(function() {
+             $.ajax({
+                url : "{% url 'atdApp:browser' %}",
+                type : 'post',
+                data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
+                         'flag' : $('#Bbtn').val()},
+                dataType: 'json',
+                        // 성공하면 콜백 함수가 호출된다.
+                success : function(list){
+                    $.each(list, function(idx, data){
+                        alert(data.browser_info)
+                        $('#browser_result').empty().append(data.browser_info)
+                        document.getElementById("Bbtn").style.visibility = "hidden";
+                    })
+                }
+             })
+         })
+         $('#Mbtn').click(function() {
+             $.ajax({
+                url : "{% url 'atdApp:mobile' %}",
+                type : 'post',
+                data : {'csrfmiddlewaretoken' : '{{csrf_token}}',
+                         'flag' : $('#Mbtn').val()},
+                dataType: 'json',
+                        // 성공하면 콜백 함수가 호출된다.
+                success : function(list){
+                    $.each(list, function(idx, data){
+                        alert(data.mobile_info)
+                        $('#mobile_result').empty().append(data.mobile_info)
+                        document.getElementById("Mbtn").style.visibility = "hidden";
+                    })
+                }
+             })
+         })
+    });
+</script>
+
+<script>
+function PrintTime() {
+    function alarmTime(){
+        // 11시와 3시 울린다
+        document.getElementById("Abtn").style.visibility = "visible";
+        document.getElementById("timeLeft").style.visibility = "visible";
+        document.getElementById("container_Abtn").style.visibility = "visible";
+    }
+    var today = new Date();
+    var hh = today.getHours();
+    var mi = today.getMinutes();
+    var ss = today.getSeconds();
+    document.getElementById("result").innerHTML = hh + ":" + mi + ":" + ss;
+    if(hh == 11 && 00<=mi && mi <5){
+        if(mi == 0 && ss == 0){
+            alert('지금 오전 신호 출석을 해주세요');
+        }
+        if(alarm_flag == 0)
+            document.getElementById("timeLeft").innerHTML = (4 - mi) - mi + ":" + (60-ss);
+        alarmTime();
+    }
+    else if(hh==15 && 0<=mi && mi<5) {
+        if(mi==0 && ss == 0){
+            alert('지금 오후 신호 출석을 해주세요');
+        }
+        if(alarm_flag == 0)
+            document.getElementById("timeLeft").innerHTML = (4 - mi) + ":" + (60-ss);
+        alarmTime();
+    }
+    else {
+        document.getElementById("Abtn").style.visibility = "hidden";
+        document.getElementById("timeLeft").style.visibility = "hidden";
+    }
+}
+</script>
+<script>
+    var digitSegments = [
+    [1,2,3,4,5,6],
+    [2,3],
+    [1,2,7,5,4],
+    [1,2,7,3,4],
+    [6,7,2,3],
+    [1,6,7,3,4],
+    [1,6,5,4,3,7],
+    [1,2,3], 
+    [1,2,3,4,5,6,7],
+    [1,2,7,3,6]
+]
+
+document.addEventListener('DOMContentLoaded', function() {
+  var _hours = document.querySelectorAll('.hours');
+  var _minutes = document.querySelectorAll('.minutes');
+  var _seconds = document.querySelectorAll('.seconds');
+  
+  setInterval(function() {
+    var date = new Date();
+    var hours = date.getHours(), minutes = date.getMinutes(), seconds = date.getSeconds();  
+    
+    setNumber(_hours[0], Math.floor(hours/10), 1);
+    setNumber(_hours[1], hours%10, 1);
+
+    setNumber(_minutes[0], Math.floor(minutes/10), 1);
+    setNumber(_minutes[1], minutes%10, 1);
+
+    setNumber(_seconds[0], Math.floor(seconds/10), 1);
+    setNumber(_seconds[1], seconds%10, 1);
+  }, 1000);
+});
+
+var setNumber = function(digit, number, on) {
+  var segments = digit.querySelectorAll('.segment');
+  var current = parseInt(digit.getAttribute('data-value'));
+
+  // only switch if number has changed or wasn't set
+  if (!isNaN(current) && current != number) {
+    // unset previous number
+    digitSegments[current].forEach(function(digitSegment, index) {
+      setTimeout(function() {
+        segments[digitSegment-1].classList.remove('on');
+      }, index*45)
+    });
+  }
+  
+  if (isNaN(current) || current != number) {
+    // set new number after
+    setTimeout(function() {
+      digitSegments[number].forEach(function(digitSegment, index) {
+        setTimeout(function() {
+          segments[digitSegment-1].classList.add('on');
+        }, index*45)
+      });
+    }, 250);
+    digit.setAttribute('data-value', number);
+  }
+}
+</script>
+{% endblock %}
+
+
+{% include 'footer2.html' %}
